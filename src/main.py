@@ -18,24 +18,6 @@ def health_check_hangler():
     return {"status": "OK"}
 
 
-todo_data = {
-    1: {
-        "id": 1,
-        "contents": "FastAPI",
-        "is_done": True,
-    },
-    2: {
-        "id": 2,
-        "contents": "FastAPI 2",
-        "is_done": False,
-    },
-    3: {
-        "id": 3,
-        "contents": "FastAPI 3",
-        "is_done": False,
-    }
-}
-
 @app.get("/todos", status_code=200)
 def get_todos_handler(
         order: str | None = None,
