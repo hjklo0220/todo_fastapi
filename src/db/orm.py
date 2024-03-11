@@ -1,7 +1,8 @@
-from sqlalchemy import Boolean, Column, Integer, String
-from sqlalchemy.orm import declarative_base
+from sqlalchemy import Boolean, Column, Integer, String, ForeignKey
+from sqlalchemy.orm import declarative_base, relationship
 
 from schema.request import CreateToDoRequest
+
 
 Base = declarative_base()
 
@@ -11,6 +12,7 @@ class ToDo(Base):
     id = Column(Integer, primary_key=True, index=True)
     contents = Column(String(256), nullable=False)
     is_done = Column(Boolean, nullable=False)
+    user_id = Column(Integer, ForeignKey("user.id"))
 
     # 객체 출력해서 보기위함
     def __repr__(self):
@@ -31,4 +33,13 @@ class ToDo(Base):
     def undone(self) -> "ToDo":
         self.is_done = False
         return self
+
+
+class User(Base):
+    __tablename__ = "user"
+
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String(256), nullable=False)
+    password = Column(String(256), nullable=False)
+    todos = relationship("ToDo", lazy="joined")
 
